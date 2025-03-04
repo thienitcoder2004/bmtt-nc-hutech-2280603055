@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, json
 from cipher.caesar import CaesarCipher
 from cipher.vigenere import VigenereCipher
 from cipher.railfence import RailFenceCipher
-from cipher.playfair import PlayfairCipher
+from cipher.playfair import PlayFairCipher
 from cipher.transposition import TranspositionCipher
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ vigenere_cipher = VigenereCipher()
 railfence_cipher = RailFenceCipher()
 
 # PLAYFAIR CIPHER ALGORITHM
-playfair_cipher = PlayfairCipher()
+playfair_cipher = PlayFairCipher()
 
 # TRANSPOSITION CIPHER ALGORITHM
 transposition_cipher = TranspositionCipher()
@@ -29,30 +29,29 @@ def home():
 def caesar():
     return render_template('caesar.html')
 
-
 #---------------------------------- /API/caesar/
 @app.route('/api/caesar/encrypt', methods=['POST'])
 def caesar_encrypt():
     data = request.json
     plain_text = data['plain_text']
-    key = input(data['key'])
+    key = int(data['key'])
     encrypted_text = caesar_cipher.encrypt_text(plain_text, key)
     return jsonify({'encrypted_message': encrypted_text})
 
 @app.route('/api/caesar/decrypt', methods=['POST'])
 def caesar_decrypt():
     data = request.json
-    cipher_text = data['cipher_text']
-    key = input(data['key'])
+    cipher_text = data['cipher_text'] 
+    key = int(data['key'])
     decrypted_text = caesar_cipher.decrypt_text(cipher_text, key)
     return jsonify({'decrypted_message': decrypted_text})
 
-#---------------------------------- /API/vegenere/
+# #---------------------------------- /API/vegenere/
 @app.route('/api/vegenere/encrypt', methods=['POST'])
 def vigenere_encrypt():
     data = request.json
     plain_text = data['plain_text']
-    key = input(data['key'])
+    key = int(data['key'])
     encrypted_text = vigenere_cipher.vigenere_encrypt(plain_text, key)
     return jsonify({'encrypted_message': encrypted_text})
 
@@ -60,7 +59,7 @@ def vigenere_encrypt():
 def vigenere_decrypt():
     data = request.json
     cipher_text = data['cipher_text']
-    key = input(data['key'])
+    key = int(data['key'])
     decrypted_text = vigenere_cipher.vigenere_decrypt(cipher_text, key)
     return jsonify({'decrypted_message': decrypted_text})
 
@@ -69,7 +68,7 @@ def vigenere_decrypt():
 def railfence_encrypt():
     data = request.json
     plain_text = data['plain_text']
-    key = input(data['key'])
+    key = int(data['key'])
     encrypted_text = railfence_cipher.rail_fence_encrypt(plain_text, key)
     return jsonify({'encrypted_message': encrypted_text})
     
@@ -77,17 +76,18 @@ def railfence_encrypt():
 def railfence_decrypt():
     data = request.json
     cipher_text = data['cipher_text']
-    key = input(data['key'])
+    key = int(data['key'])
     decrypted_text = railfence_cipher.rail_fence_decrypt(cipher_text, key)
     return jsonify({'decrypted_message': decrypted_text})
 
 #---------------------------------- /API/playfair/
 @app.route('/api/playfair/creatematrix', methods=['POST'])
-def playfair_encrypt():
-    data: request.json
+def playfair_create_matrix():
+    data = request.json
     key = data['key']
     playfair_matrix = playfair_cipher.create_playfair_matrix(key)
     return jsonify({'playfair_matrix': playfair_matrix})
+
 
 @app.route('/api/playfair/encrypt', methods=['POST'])
 def playfair_encrypt():
@@ -127,4 +127,4 @@ def transposition_decrypt():
 
 #main function
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5500, debug=True)
