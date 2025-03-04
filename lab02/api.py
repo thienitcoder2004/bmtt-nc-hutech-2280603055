@@ -21,14 +21,6 @@ playfair_cipher = PlayFairCipher()
 # TRANSPOSITION CIPHER ALGORITHM
 transposition_cipher = TranspositionCipher()
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/caesar')
-def caesar():
-    return render_template('caesar.html')
-
 #---------------------------------- /API/caesar/
 @app.route('/api/caesar/encrypt', methods=['POST'])
 def caesar_encrypt():
@@ -121,6 +113,32 @@ def transposition_decrypt():
     key = int(data.get('key'))
     decrypted_text = transposition_cipher.decrypt(cipher_text, key)
     return jsonify({'decrypted_message': decrypted_text})
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/caesar')
+def caesar():
+    return render_template('caesar.html')
+
+@app.route('/encrypt', methods=['POST'])
+def web_caesar_encrypt():
+        text = request.form['inputPlaintext']
+        key = int(request.form['inputKeyPlain'])
+        encrypted_text = caesar_cipher.encrypt_text(text, key)
+        Caesar = CaesarCipher()
+        encrypted_text = Caesar.encrypt_text(text, key)
+        return f"text: {text} <br/> key:: {key} <br/> encrypted text: {encrypted_text}"
+
+@app.route('/decrypt', methods=['POST'])
+def web_caesar_decrypt():
+        text = request.form['inputCipherText']
+        key = int(request.form['inputKeyCipher'])
+        decrypted_text = caesar_cipher.decrypt_text(text, key)
+        Caesar = CaesarCipher()
+        decrypted_text = Caesar.decrypt_text(text, key)
+        return f"text: {text} <br/> key: {key} <br/> decrypted text: {decrypted_text}"
 
 #main function
 if __name__ == '__main__':
