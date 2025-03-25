@@ -129,13 +129,13 @@ def web_caesar_encrypt():
         encrypted_text = caesar_cipher.encrypt_text(text, key)
         Caesar = CaesarCipher()
         encrypted_text = Caesar.encrypt_text(text, key)
-        return f"text: {text} <br/> key:: {key} <br/> encrypted text: {encrypted_text}"
+        return f"text: {text} <br/> key: {key} <br/> encrypted text: {encrypted_text}"
 
 @app.route('/decrypt', methods=['POST'])
 def web_caesar_decrypt():
         text = request.form['inputCipherText']
         key = int(request.form['inputKeyCipher'])
-        decrypted_text = caesar_cipher.decrypt_text(text, key)
+        decrypted_text = caesar_cipher.decrypt_text(text, key)  
         Caesar = CaesarCipher()
         decrypted_text = Caesar.decrypt_text(text, key)
         return f"text: {text} <br/> key: {key} <br/> decrypted text: {decrypted_text}"

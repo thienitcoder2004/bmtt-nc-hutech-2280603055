@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
-from cipher.rsa.rsa_cipher import RSA_Cipher
+from cipher.rsa.rsa_cipher import RSACipher
 
 app = Flask(__name__)
 
 # RSA CIPHER ALGORITHM
-rsa_cipher = RSA_Cipher()
+rsa_cipher = RSACipher()
 
 @app.route("/api/rsa/generate_keys", methods=["GET"])
 def rsa_generate_keys():
